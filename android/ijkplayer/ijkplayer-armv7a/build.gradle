@@ -1,16 +1,19 @@
 apply plugin: 'com.android.library'
 
 android {
-    // http://tools.android.com/tech-docs/new-build-system/tips
-    //noinspection GroovyAssignabilityCheck
     compileSdkVersion rootProject.ext.compileSdkVersion
-    //noinspection GroovyAssignabilityCheck
     buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
-        minSdkVersion 9
+        minSdkVersion 21
         targetSdkVersion rootProject.ext.targetSdkVersion
+
+        ndk {
+            abiFilters 'armeabi-v7a'
+        }
     }
+
+
     buildTypes {
         release {
             minifyEnabled false
@@ -18,13 +21,23 @@ android {
         }
     }
     sourceSets.main {
-        jniLibs.srcDirs 'src/main/libs'
-        jni.srcDirs = [] // This prevents the auto generation of Android.mk
+//        jniLibs.srcDirs 'src/main/libs'
+//        jni.srcDirs = [] // This prevents the auto generation of Android.mk
+    }
+
+    //ndkVersion '16.1.4479499'
+    ndkVersion '25.1.8937393'
+
+    externalNativeBuild {
+        ndkBuild {
+            path "src/main/jni/Android.mk"
+        }
     }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
 }
+
 
 apply from: new File(rootProject.projectDir, "tools/gradle-on-demand.gradle");

@@ -1053,8 +1053,10 @@ LABEL_RETURN:
 }
 
 // ----------------------------------------------------------------------------
-void monstartup(const char *libname);
-void moncleanup(void);
+
+void monstartup(const char *libname){};
+
+void moncleanup(void){};
 
 static void
 IjkMediaPlayer_native_profileBegin(JNIEnv *env, jclass clazz, jstring libName)

@@ -29,6 +29,7 @@
 
 #include "config.h"
 #include <inttypes.h>
+
 #include <math.h>
 #include <limits.h>
 #include <signal.h>
@@ -87,13 +88,13 @@
 #endif
 
 // FIXME: 9 work around NDKr8e or gcc4.7 bug
-// isnan() may not recognize some double NAN, so we test both double and float
-#if defined(__ANDROID__)
-#ifdef isnan
-#undef isnan
-#endif
-#define isnan(x) (isnan((double)(x)) || isnanf((float)(x)))
-#endif
+//// isnan() may not recognize some double NAN, so we test both double and float
+//#if defined(__ANDROID__)
+//#ifdef isnan
+//#undef isnan
+//#endif
+//#define isnan(x) (isnan((double)(x)) || isnanf((float)(x)))
+//#endif
 
 #if defined(__ANDROID__)
 #define printf(...) ALOGD(__VA_ARGS__)
@@ -2697,6 +2698,7 @@ static void sdl_audio_callback(void *opaque, Uint8 *stream, int len)
         set_clock_at(&is->audclk, is->audio_clock - (double)(is->audio_write_buf_size) / is->audio_tgt.bytes_per_sec - SDL_AoutGetLatencySeconds(ffp->aout), is->audio_clock_serial, ffp->audio_callback_time / 1000000.0);
         sync_clock_to_slave(&is->extclk, &is->audclk);
     }
+
     if (!ffp->first_audio_frame_rendered) {
         ffp->first_audio_frame_rendered = 1;
         ffp_notify_msg1(ffp, FFP_MSG_AUDIO_RENDERING_START);
