@@ -41,7 +41,7 @@ import tv.danmaku.ijk.media.player.MediaInfo;
 import tv.danmaku.ijk.media.player.misc.IjkTrackInfo;
 
 public class IjkExoMediaPlayer extends AbstractMediaPlayer {
-    private Context mAppContext;
+    private final Context mAppContext;
     private DemoPlayer mInternalPlayer;
     private EventLogger mEventLogger;
     private String mDataSource;
@@ -53,9 +53,7 @@ public class IjkExoMediaPlayer extends AbstractMediaPlayer {
 
     public IjkExoMediaPlayer(Context context) {
         mAppContext = context.getApplicationContext();
-
         mDemoListener = new DemoPlayerListener();
-
         mEventLogger = new EventLogger();
         mEventLogger.startSession();
     }
@@ -287,9 +285,7 @@ public class IjkExoMediaPlayer extends AbstractMediaPlayer {
     public void release() {
         if (mInternalPlayer != null) {
             reset();
-
             mDemoListener = null;
-
             mEventLogger.endSession();
             mEventLogger = null;
         }
@@ -334,7 +330,6 @@ public class IjkExoMediaPlayer extends AbstractMediaPlayer {
 
     private class DemoPlayerListener implements DemoPlayer.Listener {
         private boolean mIsPrepareing = false;
-        private boolean mDidPrepare = false;
         private boolean mIsBuffering = false;
 
         public void onStateChanged(boolean playWhenReady, int playbackState)
@@ -350,12 +345,10 @@ public class IjkExoMediaPlayer extends AbstractMediaPlayer {
             }
 
             if (mIsPrepareing) {
-                switch (playbackState) {
-                    case ExoPlayer.STATE_READY:
-                        notifyOnPrepared();
-                        mIsPrepareing = false;
-                        mDidPrepare = false;
-                        break;
+                if (playbackState == ExoPlayer.STATE_READY) {
+                    notifyOnPrepared();
+                    mIsPrepareing = false;
+                    boolean mDidPrepare = false;
                 }
             }
 

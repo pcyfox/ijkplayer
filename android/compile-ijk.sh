@@ -16,20 +16,25 @@
 # limitations under the License.
 #
 
+#-z判断是否我空  -o 是or或者的意思
 if [ -z "$ANDROID_NDK" -o -z "$ANDROID_NDK" ]; then
     echo "You must define ANDROID_NDK, ANDROID_SDK before starting."
     echo "They must point to your NDK and SDK directories.\n"
     exit 1
 fi
 
+#命令行的第一个参数，编译的平台比如arm64 armv7a all等
 REQUEST_TARGET=$1
 REQUEST_SUB_CMD=$2
 
 ACT_ABI_32="armv5 armv7a x86"
 ACT_ABI_64="armv5 armv7a arm64 x86 x86_64"
 ACT_ABI_ALL=$ACT_ABI_64
+#获取设备名称，MAC为Darwin
+echo "----device:$(uname -a)------"
 UNAME_S=$(uname -s)
 
+#获取可使用线程数量
 FF_MAKEFLAGS=
 if which nproc >/dev/null
 then
@@ -39,8 +44,12 @@ then
     FF_MAKEFLAGS=-j`sysctl -n machdep.cpu.thread_count`
 fi
 
+#android-ndk-prof会形成一个软连接
+#ln命令链接（link):它的功能是为某一个文件在另外一个位置建立一个同步的链接
+#用法： ln -s 源文件 目标文件
 do_sub_cmd () {
     SUB_CMD=$1
+
     if [ -L "./android-ndk-prof" ]; then
         rm android-ndk-prof
     fi

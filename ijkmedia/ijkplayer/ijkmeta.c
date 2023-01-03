@@ -34,6 +34,7 @@ struct IjkMediaMeta {
 
     size_t children_count;
     size_t children_capacity;
+
     IjkMediaMeta **children;
 };
 

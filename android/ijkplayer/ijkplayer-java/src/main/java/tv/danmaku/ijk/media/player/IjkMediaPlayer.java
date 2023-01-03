@@ -144,6 +144,7 @@ public final class IjkMediaPlayer extends AbstractMediaPlayer {
 
     @AccessedByNative
     private long mNativeMediaPlayer;
+
     @AccessedByNative
     private long mNativeMediaDataSource;
 
@@ -173,12 +174,7 @@ public final class IjkMediaPlayer extends AbstractMediaPlayer {
      * Default library loader
      * Load them by yourself, if your libraries are not installed at default place.
      */
-    private static final IjkLibLoader sLocalLibLoader = new IjkLibLoader() {
-        @Override
-        public void loadLibrary(String libName) throws UnsatisfiedLinkError, SecurityException {
-            System.loadLibrary(libName);
-        }
-    };
+    private static final IjkLibLoader sLocalLibLoader = System::loadLibrary;
 
     private static volatile boolean mIsLibLoaded = false;
     public static void loadLibrariesOnce(IjkLibLoader libLoader) {
@@ -186,7 +182,6 @@ public final class IjkMediaPlayer extends AbstractMediaPlayer {
             if (!mIsLibLoaded) {
                 if (libLoader == null)
                     libLoader = sLocalLibLoader;
-
                 libLoader.loadLibrary("ijkffmpeg");
                 libLoader.loadLibrary("ijksdl");
                 libLoader.loadLibrary("ijkplayer");
@@ -458,11 +453,8 @@ public final class IjkMediaPlayer extends AbstractMediaPlayer {
             }
             _setDataSourceFd(native_fd);
         } else {
-            ParcelFileDescriptor pfd = ParcelFileDescriptor.dup(fd);
-            try {
+            try (ParcelFileDescriptor pfd = ParcelFileDescriptor.dup(fd)) {
                 _setDataSourceFd(pfd.getFd());
-            } finally {
-                pfd.close();
             }
         }
     }

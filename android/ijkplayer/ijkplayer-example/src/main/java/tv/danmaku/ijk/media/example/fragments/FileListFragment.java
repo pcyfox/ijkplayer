@@ -65,20 +65,16 @@ public class FileListFragment extends Fragment implements LoaderManager.LoaderCa
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_file_list, container, false);
-        mPathView = (TextView) viewGroup.findViewById(R.id.path_view);
-        mFileListView = (ListView) viewGroup.findViewById(R.id.file_list_view);
-
+        mPathView = viewGroup.findViewById(R.id.path_view);
+        mFileListView = viewGroup.findViewById(R.id.file_list_view);
         mPathView.setVisibility(View.VISIBLE);
-
         return viewGroup;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
         Activity activity = getActivity();
-
         Bundle bundle = getArguments();
         if (bundle != null) {
             mPath = bundle.getString(ARG_PATH);
@@ -88,14 +84,11 @@ public class FileListFragment extends Fragment implements LoaderManager.LoaderCa
 
         mAdapter = new VideoAdapter(activity);
         mFileListView.setAdapter(mAdapter);
-        mFileListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, final int position, final long id) {
-                String path = mAdapter.getFilePath(position);
-                if (TextUtils.isEmpty(path))
-                    return;
-                FileExplorerEvents.getBus().post(new FileExplorerEvents.OnClickFile(path));
-            }
+        mFileListView.setOnItemClickListener((parent, view, position, id) -> {
+            String path = mAdapter.getFilePath(position);
+            if (TextUtils.isEmpty(path))
+                return;
+            FileExplorerEvents.getBus().post(new FileExplorerEvents.OnClickFile(path));
         });
 
         getLoaderManager().initLoader(1, null, this);
@@ -119,8 +112,8 @@ public class FileListFragment extends Fragment implements LoaderManager.LoaderCa
 
     }
 
-    final class VideoAdapter extends SimpleCursorAdapter {
-        final class ViewHolder {
+    static final class VideoAdapter extends SimpleCursorAdapter {
+        static final class ViewHolder {
             public ImageView iconImageView;
             public TextView nameTextView;
         }

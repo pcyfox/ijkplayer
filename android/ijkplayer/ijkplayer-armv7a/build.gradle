@@ -21,8 +21,14 @@ android {
         }
     }
     sourceSets.main {
-//        jniLibs.srcDirs 'src/main/libs'
-//        jni.srcDirs = [] // This prevents the auto generation of Android.mk
+        jniLibs.srcDirs 'src/main/libs'
+        jni.srcDirs = [] // This prevents the auto generation of Android.mk
+    }
+
+    sourceSets {
+        main {
+            jni.srcDirs('src/main/jni')
+        }
     }
 
     //ndkVersion '16.1.4479499'
@@ -30,7 +36,7 @@ android {
 
     externalNativeBuild {
         ndkBuild {
-            path "src/main/jni/Android.mk"
+            path "src/main/jni/ijkmedia/Android.mk"
         }
     }
 }

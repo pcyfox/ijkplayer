@@ -28,6 +28,7 @@ typedef struct J4AC_tv_danmaku_ijk_media_player_misc_IMediaDataSource {
     jmethodID method_getSize;
     jmethodID method_close;
 } J4AC_tv_danmaku_ijk_media_player_misc_IMediaDataSource;
+
 static J4AC_tv_danmaku_ijk_media_player_misc_IMediaDataSource class_J4AC_tv_danmaku_ijk_media_player_misc_IMediaDataSource;
 
 jint J4AC_tv_danmaku_ijk_media_player_misc_IMediaDataSource__readAt(JNIEnv *env, jobject thiz, jlong position, jbyteArray buffer, jint offset, jint size)

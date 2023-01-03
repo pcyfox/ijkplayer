@@ -39,11 +39,9 @@ public class FileExplorerActivity extends AppActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         if (mSettings == null) {
             mSettings = new Settings(this);
         }
-
         String lastDirectory = mSettings.getLastDirectory();
         if (!TextUtils.isEmpty(lastDirectory) && new File(lastDirectory).isDirectory())
             doOpenDirectory(lastDirectory, false);
@@ -54,25 +52,20 @@ public class FileExplorerActivity extends AppActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
         FileExplorerEvents.getBus().register(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-
         FileExplorerEvents.getBus().unregister(this);
     }
 
     private void doOpenDirectory(String path, boolean addToBackStack) {
         Fragment newFragment = FileListFragment.newInstance(path);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-
         transaction.replace(R.id.body, newFragment);
-
-        if (addToBackStack)
-            transaction.addToBackStack(null);
+        if (addToBackStack) transaction.addToBackStack(null);
         transaction.commit();
     }
 

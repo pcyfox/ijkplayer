@@ -42,7 +42,7 @@ public class AppActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         if (ContextCompat.checkSelfPermission(this,
@@ -95,10 +95,6 @@ public class AppActivity extends AppCompatActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        boolean show = super.onPrepareOptionsMenu(menu);
-        if (!show)
-            return show;
-
-        return true;
+        return super.onPrepareOptionsMenu(menu);
     }
 }

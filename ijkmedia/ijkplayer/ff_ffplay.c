@@ -143,10 +143,10 @@ static void free_picture(Frame *vp);
 
 static int packet_queue_put_private(PacketQueue *q, AVPacket *pkt)
 {
-    MyAVPacketList *pkt1;
-
     if (q->abort_request)
-       return -1;
+        return -1;
+
+    MyAVPacketList *pkt1;
 
 #ifdef FFP_MERGE
     pkt1 = av_malloc(sizeof(MyAVPacketList));
@@ -941,13 +941,13 @@ static void stream_component_close(FFPlayer *ffp, int stream_index)
 
     if (stream_index < 0 || stream_index >= ic->nb_streams)
         return;
+
     codecpar = ic->streams[stream_index]->codecpar;
 
     switch (codecpar->codec_type) {
     case AVMEDIA_TYPE_AUDIO:
         decoder_abort(&is->auddec, &is->sampq);
         SDL_AoutCloseAudio(ffp->aout);
-
         decoder_destroy(&is->auddec);
         swr_free(&is->swr_ctx);
         av_freep(&is->audio_buf1);
@@ -4328,9 +4328,7 @@ int ffp_start_l(FFPlayer *ffp)
 {
     assert(ffp);
     VideoState *is = ffp->is;
-    if (!is)
-        return EIJK_NULL_IS_PTR;
-
+    if (!is)return EIJK_NULL_IS_PTR;
     toggle_pause(ffp, 0);
     return 0;
 }
@@ -5034,8 +5032,6 @@ void ffp_set_property_int64(FFPlayer *ffp, int id, int64_t value)
 
 IjkMediaMeta *ffp_get_meta_l(FFPlayer *ffp)
 {
-    if (!ffp)
-        return NULL;
-
+    if (!ffp)return NULL;
     return ffp->meta;
 }

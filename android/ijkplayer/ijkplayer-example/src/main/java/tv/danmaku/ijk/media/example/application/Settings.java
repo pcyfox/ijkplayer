@@ -24,8 +24,8 @@ import android.preference.PreferenceManager;
 import tv.danmaku.ijk.media.example.R;
 
 public class Settings {
-    private Context mAppContext;
-    private SharedPreferences mSharedPreferences;
+    private final Context mAppContext;
+    private final SharedPreferences mSharedPreferences;
 
     public static final int PV_PLAYER__Auto = 0;
     public static final int PV_PLAYER__AndroidMediaPlayer = 1;
@@ -46,7 +46,7 @@ public class Settings {
         String key = mAppContext.getString(R.string.pref_key_player);
         String value = mSharedPreferences.getString(key, "");
         try {
-            return Integer.valueOf(value).intValue();
+            return Integer.valueOf(value);
         } catch (NumberFormatException e) {
             return 0;
         }

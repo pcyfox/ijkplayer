@@ -31,7 +31,9 @@
 #include "ff_ffplay_def.h"
 
 typedef struct IJKFF_Pipeline_Opaque IJKFF_Pipeline_Opaque;
+
 typedef struct IJKFF_Pipeline IJKFF_Pipeline;
+
 struct IJKFF_Pipeline {
     SDL_Class             *opaque_class;
     IJKFF_Pipeline_Opaque *opaque;

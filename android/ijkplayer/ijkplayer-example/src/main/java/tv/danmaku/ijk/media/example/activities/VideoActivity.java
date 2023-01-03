@@ -50,18 +50,13 @@ import tv.danmaku.ijk.media.example.widget.media.MeasureHelper;
 
 public class VideoActivity extends AppCompatActivity implements TracksFragment.ITrackHolder {
     private static final String TAG = "VideoActivity";
-
-    private String mVideoPath;
-    private Uri    mVideoUri;
-
+    private Uri mVideoUri;
     private AndroidMediaController mMediaController;
     private IjkVideoView mVideoView;
     private TextView mToastTextView;
-    private TableLayout mHudView;
     private DrawerLayout mDrawerLayout;
     private ViewGroup mRightDrawer;
 
-    private Settings mSettings;
     private boolean mBackPressed;
 
     public static Intent newIntent(Context context, String videoPath, String videoTitle) {
@@ -80,10 +75,10 @@ public class VideoActivity extends AppCompatActivity implements TracksFragment.I
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player);
 
-        mSettings = new Settings(this);
+        Settings mSettings = new Settings(this);
 
         // handle arguments
-        mVideoPath = getIntent().getStringExtra("videoPath");
+        String mVideoPath = getIntent().getStringExtra("videoPath");
 
         Intent intent = getIntent();
         String intentAction = intent.getAction();
@@ -127,7 +122,7 @@ public class VideoActivity extends AppCompatActivity implements TracksFragment.I
         mMediaController.setSupportActionBar(actionBar);
 
         mToastTextView = (TextView) findViewById(R.id.toast_text_view);
-        mHudView = (TableLayout) findViewById(R.id.hud_view);
+        TableLayout mHudView = (TableLayout) findViewById(R.id.hud_view);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mRightDrawer = (ViewGroup) findViewById(R.id.right_drawer);
 

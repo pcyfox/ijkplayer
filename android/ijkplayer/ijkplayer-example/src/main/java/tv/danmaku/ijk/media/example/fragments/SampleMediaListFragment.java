@@ -38,15 +38,14 @@ public class SampleMediaListFragment extends Fragment {
     private SampleMediaAdapter mAdapter;
 
     public static SampleMediaListFragment newInstance() {
-        SampleMediaListFragment f = new SampleMediaListFragment();
-        return f;
+        return new SampleMediaListFragment();
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_file_list, container, false);
-        mFileListView = (ListView) viewGroup.findViewById(R.id.file_list_view);
+        mFileListView = viewGroup.findViewById(R.id.file_list_view);
         return viewGroup;
     }
 
@@ -58,14 +57,11 @@ public class SampleMediaListFragment extends Fragment {
 
         mAdapter = new SampleMediaAdapter(activity);
         mFileListView.setAdapter(mAdapter);
-        mFileListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, final int position, final long id) {
-                SampleMediaItem item = mAdapter.getItem(position);
-                String name = item.mName;
-                String url = item.mUrl;
-                VideoActivity.intentTo(activity, url, name);
-            }
+        mFileListView.setOnItemClickListener((parent, view, position, id) -> {
+            SampleMediaItem item = mAdapter.getItem(position);
+            String name = item.mName;
+            String url = item.mUrl;
+            VideoActivity.intentTo(activity, url, name);
         });
 
         mAdapter.addItem("http://devimages.apple.com.edgekey.net/streaming/examples/bipbop_4x3/bipbop_4x3_variant.m3u8", "bipbop basic master playlist");
@@ -83,7 +79,7 @@ public class SampleMediaListFragment extends Fragment {
         mAdapter.addItem("http://devimages.apple.com.edgekey.net/streaming/examples/bipbop_16x9/gear0/prog_index.m3u8", "bipbop advanced 22.050Hz stereo @ 40 kbps");
     }
 
-    final class SampleMediaItem {
+    static final class SampleMediaItem {
         String mUrl;
         String mName;
 
@@ -93,7 +89,7 @@ public class SampleMediaListFragment extends Fragment {
         }
     }
 
-    final class SampleMediaAdapter extends ArrayAdapter<SampleMediaItem> {
+    static final class SampleMediaAdapter extends ArrayAdapter<SampleMediaItem> {
         public SampleMediaAdapter(Context context) {
             super(context, android.R.layout.simple_list_item_2);
         }
@@ -129,7 +125,7 @@ public class SampleMediaListFragment extends Fragment {
             return view;
         }
 
-        final class ViewHolder {
+        static final class ViewHolder {
             public TextView mNameTextView;
             public TextView mUrlTextView;
         }

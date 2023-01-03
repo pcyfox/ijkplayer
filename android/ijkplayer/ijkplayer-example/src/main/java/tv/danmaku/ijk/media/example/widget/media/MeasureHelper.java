@@ -26,7 +26,7 @@ import java.lang.ref.WeakReference;
 import tv.danmaku.ijk.media.example.R;
 
 public final class MeasureHelper {
-    private WeakReference<View> mWeakView;
+    private final WeakReference<View> mWeakView;
 
     private int mVideoWidth;
     private int mVideoHeight;
@@ -75,7 +75,7 @@ public final class MeasureHelper {
         //        + MeasureSpec.toString(heightMeasureSpec) + ")");
         if (mVideoRotationDegree == 90 || mVideoRotationDegree == 270) {
             int tempSpec = widthMeasureSpec;
-            widthMeasureSpec  = heightMeasureSpec;
+            widthMeasureSpec = heightMeasureSpec;
             heightMeasureSpec = tempSpec;
         }
 
